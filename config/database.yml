@@ -1,0 +1,28 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: WeatherStatusApi_development
+  host: localhost
+  port: 5432
+  username: weather
+  password: weather123
+
+test:
+  <<: *default
+  database: WeatherStatusApi_test
+  host: localhost
+  port: 5432
+  username: weather
+  password: weather123
+
+production:
+  <<: *default
+  database: WeatherStatusApi_production
+  username: WeatherStatusApi
+  password: <%= ENV["WEATHERSTATUSAPI_DATABASE_PASSWORD"] %>

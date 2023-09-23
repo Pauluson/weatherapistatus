@@ -1,0 +1,167 @@
+---
+openapi: 3.0.1
+info:
+  title: WeatherAPI
+paths:
+  "/weather/current":
+    get:
+      summary: Retrieves the current temperature
+      tags:
+      - Weather
+      responses:
+        '200':
+          description: temperature found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: integer
+                required:
+                - temperature
+        '404':
+          description: temperature not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/weather/historical":
+    get:
+      summary: Retrieves historical temperature for the last 24 hours
+      tags:
+      - Weather
+      responses:
+        '200':
+          description: historical temperature found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    datetime:
+                      type: integer
+                    temperature:
+                      type: integer
+                  required:
+                  - datetime
+                  - temperature
+  "/weather/historical/avg":
+    get:
+      summary: Retrieves the average temperature for the last 24 hours
+      tags:
+      - Weather
+      responses:
+        '200':
+          description: average temperature found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  avg:
+                    type: number
+                    format: float
+                required:
+                - avg
+  "/weather/historical/max":
+    get:
+      summary: Retrieves the maximum temperature for the last 24 hours
+      tags:
+      - Weather
+      responses:
+        '200':
+          description: maximum temperature found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: integer
+                required:
+                - temperature
+  "/weather/historical/min":
+    get:
+      summary: Retrieves the minimum temperature for the last 24 hours
+      tags:
+      - Weather
+      responses:
+        '200':
+          description: minimum temperature found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temperature:
+                    type: integer
+                required:
+                - temperature
+  "/weather/historical/by_time":
+    get:
+      summary: Retrieves temperature for a specific time
+      tags:
+      - Weather
+      parameters:
+      - name: time
+        in: query
+        required: true
+        description: Timestamp for the requested time
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: temperature found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  datetime:
+                    type: integer
+                  temperature:
+                    type: integer
+                required:
+                - datetime
+                - temperature
+        '404':
+          description: temperature not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+  "/weather/health":
+    get:
+      summary: Retrieves the health status of the weather service
+      tags:
+      - Weather
+      responses:
+        '200':
+          description: health status found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                required:
+                - status
+servers:
+- url: http://localhost:3000/api
+  variables:
+    defaultHost:
+      default: http://localhost:3000/api
